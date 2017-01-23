@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Android_IOD</string>
+    <string name="action_settings">Settings</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
+    <string name="view_text_attribute">Attribute:</string>
+    <string name="view_text_name">Name:</string>
+    <string name="view_text_category">Category:</string>
+    <string name="view_text_viewcount">ViewCount:</string>
+    <string name="view_text_description">Description:</string>
+
+</resources>
