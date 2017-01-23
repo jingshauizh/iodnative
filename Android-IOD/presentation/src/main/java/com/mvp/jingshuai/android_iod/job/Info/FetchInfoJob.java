@@ -3,7 +3,7 @@ package com.mvp.jingshuai.android_iod.job.Info;
 import android.content.Context;
 
 import com.mvp.jingshuai.android_iod.di.component.AppComponent;
-import com.mvp.jingshuai.domain.event.FetchedInfoEvent;
+import com.mvp.jingshuai.android_iod.event.FetchedInfoEvent;
 import com.mvp.jingshuai.android_iod.job.BaseJob;
 import com.mvp.jingshuai.android_iod.job.NetworkException;
 

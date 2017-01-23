@@ -20,7 +20,10 @@ package com.mvp.jingshuai.android_iod.config;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-public class DemoConfig {
+import com.mvp.jingshuai.android_iod.api.ApiConfigIF;
+
+
+public class DemoConfig implements ApiConfigIF {
     private static final String KEY_USER_ID = "user_id";
     private static final String KEY_NEW_JOB_RETRY_COUNT = "new_post_retry_count";
     private static final String KEY_API_URL = "api_url";
@@ -47,7 +50,7 @@ public class DemoConfig {
     }
 
     public String getApiUrl() {
-        return mSharedPreferences.getString(KEY_API_URL, "http://10.61.24.71:8080/");
+        return mSharedPreferences.getString(KEY_API_URL, "http://150.236.223.159:8080/");
     }
 
     public void setApiUrl(String url) {

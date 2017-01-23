@@ -7,7 +7,7 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.mvp.jingshuai.android_iod.app.IODApplication;
-import com.mvp.jingshuai.domain.event.FetchedInfoEvent;
+import com.mvp.jingshuai.android_iod.event.FetchedInfoEvent;
 import com.mvp.jingshuai.android_iod.job.BaseJob;
 import com.mvp.jingshuai.android_iod.job.Info.FetchInfoJob;
 import com.mvp.jingshuai.data.idal.InfoIdal;

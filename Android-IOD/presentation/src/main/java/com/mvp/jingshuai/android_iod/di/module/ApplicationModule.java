@@ -3,11 +3,13 @@ package com.mvp.jingshuai.android_iod.di.module;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.mvp.jingshuai.android_iod.api.ApiConfigIF;
 import com.mvp.jingshuai.android_iod.app.IODApplication;
 import com.mvp.jingshuai.android_iod.config.DemoConfig;
 import com.mvp.jingshuai.android_iod.job.BaseJob;
 import com.mvp.jingshuai.data.idal.InfoIdal;
 import com.mvp.jingshuai.data.storage.IODDatabase;
+
 import com.path.android.jobqueue.Job;
 import com.path.android.jobqueue.JobManager;
 import com.path.android.jobqueue.config.Configuration;
@@ -43,7 +45,7 @@ public class ApplicationModule {
 
     @Provides
     @Singleton
-    public DemoConfig demoConfig() {
+    public ApiConfigIF demoConfig() {
         return new DemoConfig(mApp);
     }
 

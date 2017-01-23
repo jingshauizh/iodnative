@@ -21,7 +21,6 @@ android {
 
 dependencies {
     compile project(':data')
-    compile project(':domain')
     compile project(':commonlib')
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.android.support:appcompat-v7:24.2.1'
@@ -41,4 +40,5 @@ dependencies {
     // 添加java 注解库
     apt 'com.google.dagger:dagger-compiler:2.0'
     testCompile 'junit:junit:4.12'
+
 }

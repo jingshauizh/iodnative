@@ -15,7 +15,7 @@
  *
  */
 
-package com.mvp.jingshuai.domain.event;
+package com.mvp.jingshuai.android_iod.event;
 
 import android.support.annotation.Nullable;
 
