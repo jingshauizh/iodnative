@@ -1,1 +1,1 @@
-include ':presentation', ':data', ':commonlib'
+include ':presentation', ':data', ':commonlib',':guideview'
