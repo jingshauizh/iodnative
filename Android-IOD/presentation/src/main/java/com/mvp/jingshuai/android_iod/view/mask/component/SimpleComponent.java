@@ -1,11 +1,15 @@
 package com.mvp.jingshuai.android_iod.view.mask.component;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.blog.www.guideview.Component;
+import com.mvp.jingshuai.android_iod.InfoODetail.InfoODetailActivity;
+import com.mvp.jingshuai.android_iod.InfoPlayView.PlayActivityTemp;
 import com.mvp.jingshuai.android_iod.R;
 
 
@@ -23,7 +27,9 @@ public class SimpleComponent implements Component {
     ll.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View view) {
-        Toast.makeText(view.getContext(), "引导层被点击了", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(view.getContext(), "引导层被点击了", Toast.LENGTH_SHORT).show();
+        Activity pActivity =  (Activity)view.getContext();
+        pActivity.startActivity(new Intent(view.getContext(), InfoODetailActivity.class));
       }
     });
     return ll;

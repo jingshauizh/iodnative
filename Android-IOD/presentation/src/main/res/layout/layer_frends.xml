@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:dsw="http://schemas.android.com/apk/res/com.mvp.jingshuai.android_iod"
   android:layout_width="wrap_content"
   android:layout_height="wrap_content"
   android:orientation="vertical">
 
-  <TextView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:textColor="@color/color_white"
-    android:text="@string/add_friend" />
-
-  <ImageView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:src="@mipmap/arrow" />
+  <com.blog.www.guideview.circleImageView.CircleImageViewWithBorder
+      android:layout_width="80dp"
+      android:layout_height="80dp"
+      android:layout_margin="10dp"
+      android:src="@drawable/sintelsintel"
+      dsw:border_color="#0000ff"
+      dsw:border_size="1dp"
+      />
 </LinearLayout>
