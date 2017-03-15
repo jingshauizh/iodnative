@@ -79,8 +79,20 @@ public class PlayActivityTemp extends AppCompatActivity {
 
         builder1.addComponent(new SimpleComponent());
 
-        Guide guide = builder1.createGuide();
+        guide = builder1.createGuide();
         guide.setShouldCheckLocInWindow(false);
         guide.show(PlayActivityTemp.this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        //guide.dismiss();
     }
 }

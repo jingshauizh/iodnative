@@ -6,6 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
+import com.mvp.jingshuai.commonlib.log.MLog;
+
 import java.util.List;
 
 /**
@@ -43,6 +45,7 @@ public abstract class CommonAdapter<T> extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         final ViewHolder viewHolder = getViewHolder(position, convertView,
                 parent);
+        MLog.i("555555555 position="+position);
         convert(viewHolder, getItem(position));
         return viewHolder.getConvertView();
 

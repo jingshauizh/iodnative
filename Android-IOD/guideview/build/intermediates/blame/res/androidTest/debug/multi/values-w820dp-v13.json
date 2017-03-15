@@ -1,0 +1,47 @@
+[
+    {
+        "outputFile": "C:\\1jason\\3code\\git_code\\iod_native\\iodnative\\Android-IOD\\guideview\\build\\intermediates\\res\\merged\\androidTest\\debug\\values-w820dp-v13\\values-w820dp-v13.xml",
+        "map": [
+            {
+                "to": {
+                    "startLine": 2,
+                    "startColumn": 4,
+                    "startOffset": 55,
+                    "endLine": 7,
+                    "endColumn": 24,
+                    "endOffset": 349
+                },
+                "from": {
+                    "file": "C:\\1jason\\3code\\git_code\\iod_native\\iodnative\\Android-IOD\\guideview\\build\\intermediates\\bundles\\debug\\res\\values-w820dp-v13\\values-w820dp-v13.xml",
+                    "position": {
+                        "startLine": 2,
+                        "startColumn": 4,
+                        "startOffset": 55,
+                        "endLine": 7,
+                        "endColumn": 24,
+                        "endOffset": 349
+                    }
+                }
+            },
+            {
+                "to": {
+                    "startLine": 8,
+                    "startColumn": 4,
+                    "startOffset": 354,
+                    "endColumn": 57,
+                    "endOffset": 407
+                },
+                "from": {
+                    "file": "C:\\1jason\\3code\\git_code\\iod_native\\iodnative\\Android-IOD\\guideview\\build\\intermediates\\bundles\\debug\\res\\values-w820dp-v13\\values-w820dp-v13.xml",
+                    "position": {
+                        "startLine": 8,
+                        "startColumn": 4,
+                        "startOffset": 354,
+                        "endColumn": 57,
+                        "endOffset": 407
+                    }
+                }
+            }
+        ]
+    }
+]

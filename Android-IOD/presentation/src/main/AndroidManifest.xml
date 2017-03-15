@@ -19,14 +19,14 @@
         <activity android:name=".view.player.PlayerActivity" />
         <activity android:name=".InfoODetail.InfoODetailActivity"></activity>
         <activity android:name=".InfoPlayView.PlayActivity">
-
-        </activity>
-        <activity android:name=".InfoPlayView.PlayActivityTemp">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name=".InfoPlayView.PlayActivityTemp">
+
         </activity>
     </application>
 

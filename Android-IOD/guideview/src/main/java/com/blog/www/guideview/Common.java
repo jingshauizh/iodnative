@@ -46,7 +46,7 @@ class Common {
     view.getLocationInWindow(loc);
     Rect mRect = new  Rect();
     view.getLocalVisibleRect(mRect);
-    Log.i("TAGmRect","height="+mRect.height()+"width="+mRect.width());
+    Log.i("TAG","height="+mRect.height()+"width="+mRect.width());
 
     Log.i("TAG","X="+loc[0]+"Y="+loc[1]+"  height="+height);
     Log.i("TAG","parentX="+parentX+"  parentY="+parentY+"  height="+height);

@@ -86,12 +86,15 @@ public class InfoODetailPresenter implements InfoODetailContract.Presenter {
         Date mdate = new Date();
         Log.i(TAG,"22222 time="+String.valueOf(mdate.getTime()));
         InfoObjectModel mInfoObjectModel = mInfoIdal.loadByInfoId(page_infoId);
-        mInfoODetailView.showAttribute(mInfoObjectModel.getAttribute());
-        mInfoODetailView.showCategory(mInfoObjectModel.getCategory());
-        mInfoODetailView.showTitle(mInfoObjectModel.getInfoName());
-        mInfoODetailView.showViewCount(String.valueOf(mInfoObjectModel.getViewCount()));
-        mInfoODetailView.showDescription(mInfoObjectModel.getDescription());
-        mInfoODetailView.showInfoImage(mInfoObjectModel.getImageUrlFull());
+        if(mInfoObjectModel != null){
+            mInfoODetailView.showAttribute(mInfoObjectModel.getAttribute());
+            mInfoODetailView.showCategory(mInfoObjectModel.getCategory());
+            mInfoODetailView.showTitle(mInfoObjectModel.getInfoName());
+            mInfoODetailView.showViewCount(String.valueOf(mInfoObjectModel.getViewCount()));
+            mInfoODetailView.showDescription(mInfoObjectModel.getDescription());
+            mInfoODetailView.showInfoImage(mInfoObjectModel.getImageUrlFull());
+        }
+
     }
 
 
