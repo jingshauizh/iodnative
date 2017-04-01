@@ -4,10 +4,12 @@ package com.mvp.jingshuai.android_iod.view.mask.component;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Rect;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Adapter;
+import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -55,14 +57,22 @@ public class ListComponent implements Component {
         ll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Toast.makeText(view.getContext(), "引导层被点击了", Toast.LENGTH_SHORT).show();
+                Log.i("ListComponent","ListComponent setOnClickListener ");
+                Activity pActivity =  (Activity)view.getContext();
+                pActivity.startActivity(new Intent(view.getContext(), InfoODetailActivity.class));
+            }
+        });
+
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.i("ListComponent","ListComponent setOnItemClickListener position= "+position);
                 Activity pActivity =  (Activity)view.getContext();
                 pActivity.startActivity(new Intent(view.getContext(), InfoODetailActivity.class));
             }
         });
         return ll;
     }
-
 
     @Override
     public int getAnchor() {
@@ -99,7 +109,6 @@ public class ListComponent implements Component {
 
     }
 
-
     public enum XPosition {
         IN_LEFT,
         IN_RIGHT
@@ -111,7 +120,6 @@ public class ListComponent implements Component {
         IN_BUTTOM
     }
 
-
     public static XPosition checkXposition(View view, MotionEvent motionEvent){
         Rect mRect = new Rect();
         view.getLocalVisibleRect(mRect);
@@ -122,7 +130,6 @@ public class ListComponent implements Component {
         }
         return XPosition.IN_RIGHT;
     }
-
     public static YPosition checkYposition(View view, MotionEvent motionEvent){
         Rect mRect = new Rect();
         view.getLocalVisibleRect(mRect);
@@ -138,6 +145,4 @@ public class ListComponent implements Component {
         }
         return YPosition.IN_BUTTOM;
     }
-
-
 }

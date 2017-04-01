@@ -1,14 +1,14 @@
-package com.mvp.jingshuai.android_iod.InfoPlayView;
+package com.mvp.jingshuai.android_iod.infoplayviewp;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import android.content.res.AssetFileDescriptor;
-import android.graphics.Rect;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -28,15 +28,27 @@ import com.mvp.jingshuai.android_iod.R;
 import com.mvp.jingshuai.android_iod.adapter.ListInfoAdapter;
 import com.mvp.jingshuai.android_iod.view.mask.component.ListComponent;
 import com.mvp.jingshuai.commonlib.adapter.CommonAdapter;
+import com.mvp.jingshuai.commonlib.log.MLog;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class PlayActivity extends AppCompatActivity implements OnClickListener {
 
-    private SurfaceView surface1;
-    private Button start, stop, pre;
+    @BindView(R.id.surface1)
+    SurfaceView surface1;
+    @BindView(R.id.start)
+    Button start;
+    @BindView(R.id.stop)
+    Button stop;
+    @BindView(R.id.pre)
+    Button pre;
+    @BindView(R.id.ll_view_group)
+    LinearLayout  ll_view_group;
+
     private MediaPlayer mediaPlayer1;
     private MotionEvent stmotionEvent;
 
-    private LinearLayout  ll_view_group;
 
     Guide guide;
 
@@ -51,10 +63,8 @@ public class PlayActivity extends AppCompatActivity implements OnClickListener {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_play);
-        surface1 = (SurfaceView) findViewById(R.id.surface1);
-        start = (Button) findViewById(R.id.start);
-        stop = (Button) findViewById(R.id.stop);
-        pre = (Button) findViewById(R.id.pre);
+
+        ButterKnife.bind(this);
         mediaPlayer1 = new MediaPlayer();
         //设置播放时打开屏幕
         surface1.getHolder().setKeepScreenOn(true);
@@ -65,7 +75,7 @@ public class PlayActivity extends AppCompatActivity implements OnClickListener {
 
         Log.i(TAG,"555555  PlayActivity onCreate ");
 
-        ll_view_group = (LinearLayout) findViewById(R.id.ll_view_group);
+        //ll_view_group = (LinearLayout) findViewById(R.id.ll_view_group);
         ll_view_group.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View view) {
                 // Toast.makeText(PlayActivityTemp.this, "ViewActivity show", Toast.LENGTH_SHORT).show();
@@ -84,6 +94,10 @@ public class PlayActivity extends AppCompatActivity implements OnClickListener {
                 if(motionEvent.getAction() == MotionEvent.ACTION_UP){
                     view.post(new Runnable() {
                         @Override public void run() {
+                            int pos = mediaPlayer1.getCurrentPosition();
+                            MLog.d("mediaPlayer1.getCurrentPosition pos="+pos);
+                            //应该先拿数据 等数据到了之后再show view
+                            //或者 先从本地数据库读取数据,远程的数据拿到了以后再更新。
                             showGuideView2(pmotionEvent);
                         }
                     });
@@ -118,8 +132,9 @@ public class PlayActivity extends AppCompatActivity implements OnClickListener {
         titleList.add("object2");
         titleList.add("object3");
 
-        CommonAdapter mCommonAdapter = new ListInfoAdapter(PlayActivity.this,titleList,R.layout.layer_object_list_item);
 
+        CommonAdapter mCommonAdapter = new ListInfoAdapter(PlayActivity.this,titleList,R.layout.layer_object_list_item);
+        //mCommonAdapter.notifyDataSetChanged();
         ListComponent.XPosition xPosition = ListComponent.checkXposition(ll_view_group,motionEvent);
         ListComponent.YPosition yPosition = ListComponent.checkYposition(ll_view_group,motionEvent);
 
@@ -135,27 +150,7 @@ public class PlayActivity extends AppCompatActivity implements OnClickListener {
     @Override
     protected void onResume() {
         super.onResume();
-//        if(stmotionEvent != null){
-//            showGuideView2(stmotionEvent);
-//        }
-        //Log.i(TAG,"333333  PlayActivity mediaPlayer1.pause ");
         mediaPlayer1.pause();
-//        ImageView mImageView = (ImageView)findViewById(R.id.im_view_object2);
-//        ImageView mImageView2 = (ImageView)findViewById(R.id.im_view_object);
-//
-//        if(mImageView != null && mImageView2 != null){
-//            mImageView.refreshDrawableState();
-//            Drawable mDrawable =mImageView.getDrawable();
-//            Log.i(TAG,"333333 1111 PlayActivity mediaPlayer1.pause mDrawable="+mDrawable.toString());
-//           // mImageView.setImageDrawable(getResources().getDrawable(R.drawable.sintelsintel));
-//            mImageView2.setImageDrawable(mDrawable);
-//            //mImageView.setBackground(mDrawable);
-//            //mImageView.setBackground(getResources().getDrawable(R.drawable.sintelsintel));
-//        }
-//        else{
-//            Log.i(TAG,"333333 44444 PlayActivity mediaPlayer1.pause mImageView = null=");
-//        }
-
     }
 
     @Override
@@ -196,6 +191,23 @@ public class PlayActivity extends AppCompatActivity implements OnClickListener {
     }
 
     public void play() throws IllegalArgumentException, SecurityException,
+            IllegalStateException, IOException {
+        mediaPlayer1.reset();
+        mediaPlayer1.setAudioStreamType(AudioManager.STREAM_MUSIC);
+        //mediaPlayer1.setDataSource("/mnt/sdcard/通话录音/1.mp4");
+
+        String sdCard= Environment.getExternalStorageDirectory().getPath();
+        String mediaPath = sdCard+"/Movies/sintel-1024-surround.mp4";
+        MLog.d("mediaPath="+mediaPath);
+        mediaPlayer1.setDataSource(mediaPath);
+        // 把视频输出到SurfaceView上
+        mediaPlayer1.setDisplay(surface1.getHolder());
+        mediaPlayer1.prepare();
+        mediaPlayer1.start();
+    }
+
+
+    public void play_1() throws IllegalArgumentException, SecurityException,
             IllegalStateException, IOException {
         mediaPlayer1.reset();
         mediaPlayer1.setAudioStreamType(AudioManager.STREAM_MUSIC);

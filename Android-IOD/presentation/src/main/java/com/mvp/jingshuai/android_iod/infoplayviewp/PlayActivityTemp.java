@@ -1,4 +1,4 @@
-package com.mvp.jingshuai.android_iod.InfoPlayView;
+package com.mvp.jingshuai.android_iod.infoplayviewp;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.blog.www.guideview.Component;
 import com.blog.www.guideview.Guide;

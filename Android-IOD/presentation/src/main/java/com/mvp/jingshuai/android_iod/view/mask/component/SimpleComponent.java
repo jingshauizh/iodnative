@@ -2,17 +2,12 @@ package com.mvp.jingshuai.android_iod.view.mask.component;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.blog.www.guideview.Component;
 import com.mvp.jingshuai.android_iod.InfoODetail.InfoODetailActivity;
-import com.mvp.jingshuai.android_iod.InfoPlayView.PlayActivityTemp;
 import com.mvp.jingshuai.android_iod.R;
 
 
