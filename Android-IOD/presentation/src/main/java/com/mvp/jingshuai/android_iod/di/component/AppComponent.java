@@ -10,7 +10,10 @@ import com.mvp.jingshuai.android_iod.api.ApiConfigIF;
 import com.mvp.jingshuai.android_iod.api.ApiModule;
 import com.mvp.jingshuai.android_iod.config.DemoConfig;
 import com.mvp.jingshuai.android_iod.di.module.ApplicationModule;
+import com.mvp.jingshuai.android_iod.infoplayviewp.PlayActivity;
+import com.mvp.jingshuai.android_iod.infoplayviewp.PlayActivityBack;
 import com.mvp.jingshuai.android_iod.job.Info.FetchInfoJob;
+import com.mvp.jingshuai.android_iod.job.Info.GetCurrentObjJob;
 import com.mvp.jingshuai.data.idal.InfoIdal;
 import com.mvp.jingshuai.data.network.ApiService;
 
@@ -40,6 +43,9 @@ public interface AppComponent {
     //定义注入的方法
     void inject(InfoODetailActivity activity);
     void inject(FetchInfoJob fetchInfoJob);
+    void inject(GetCurrentObjJob getCurrentObjJob);
     void inject(InfoODetailPresenter infoODetailPresenter);
+    void inject(PlayActivity playActivity);
+    void inject(PlayActivityBack playActivityBack);
 
 }

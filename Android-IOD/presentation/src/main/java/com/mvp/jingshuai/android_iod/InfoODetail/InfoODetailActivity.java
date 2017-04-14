@@ -1,5 +1,6 @@
 package com.mvp.jingshuai.android_iod.InfoODetail;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -36,11 +37,16 @@ public class InfoODetailActivity extends AppCompatActivity {
             ActivityUtils.addFragmentToActivity(getSupportFragmentManager(),
                     mInfoODetailFragment, R.id.contentFrame);
         }
-
+        Intent intent = getIntent();
+        String infoId = intent.getStringExtra("infoId");
+        String vodId = intent.getStringExtra("vodId");
         // Create the presenter
-        new InfoODetailPresenter(
+        InfoODetailPresenter mInfoODetailPresenter = new InfoODetailPresenter(
                 taskId,
-                mInfoODetailFragment);
+                mInfoODetailFragment,
+                infoId,
+                vodId);
+
 
     }
 

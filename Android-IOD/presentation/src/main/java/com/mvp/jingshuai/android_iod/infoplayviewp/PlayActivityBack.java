@@ -1,9 +1,6 @@
 package com.mvp.jingshuai.android_iod.infoplayviewp;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
+import android.content.Context;
 import android.content.res.AssetFileDescriptor;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
@@ -27,15 +24,28 @@ import com.blog.www.guideview.GuideBuilder;
 import com.mvp.jingshuai.android_iod.R;
 import com.mvp.jingshuai.android_iod.adapter.AdapterModel;
 import com.mvp.jingshuai.android_iod.adapter.ListInfoAdapter;
+import com.mvp.jingshuai.android_iod.app.IODApplication;
+import com.mvp.jingshuai.android_iod.event.FetchedCurrentInfoEvent;
+import com.mvp.jingshuai.android_iod.job.BaseJob;
+import com.mvp.jingshuai.android_iod.job.Info.GetCurrentObjJob;
 import com.mvp.jingshuai.android_iod.view.mask.component.ListComponent;
 import com.mvp.jingshuai.commonlib.adapter.CommonAdapter;
 import com.mvp.jingshuai.commonlib.log.MLog;
+import com.mvp.jingshuai.data.idal.InfoIdal;
 import com.mvp.jingshuai.data.model.InfoObjectModel;
+import com.path.android.jobqueue.JobManager;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import de.greenrobot.event.EventBus;
 
-public class PlayActivity extends AppCompatActivity implements OnClickListener {
+public class PlayActivityBack extends AppCompatActivity implements OnClickListener {
 
     @BindView(R.id.surface1)
     SurfaceView surface1;
@@ -48,10 +58,21 @@ public class PlayActivity extends AppCompatActivity implements OnClickListener {
     @BindView(R.id.ll_view_group)
     LinearLayout  ll_view_group;
 
+
+    @Inject
+    JobManager mJobManager;
+    @Inject
+    Context mAppContext;
+    @Inject
+    EventBus mEventBus;
+    @Inject
+    InfoIdal mInfoIdal;
+
     private MediaPlayer mediaPlayer1;
-    private MotionEvent stmotionEvent;
+     MotionEvent stmotionEvent;
 
-
+    List<AdapterModel> titleList = null;
+    MotionEvent pmotionEvent;
     Guide guide;
 
     private int postion = 0;
@@ -75,11 +96,16 @@ public class PlayActivity extends AppCompatActivity implements OnClickListener {
         stop.setOnClickListener(this);
         pre.setOnClickListener(this);
 
-        Log.i(TAG,"555555  PlayActivity onCreate ");
+
+        IODApplication.getInstance().getAppComponent().inject(this);
+        mEventBus.register(this, 0);
+
+        Log.i(TAG, "555555  PlayActivity onCreate ");
 
         //ll_view_group = (LinearLayout) findViewById(R.id.ll_view_group);
-        ll_view_group.setOnClickListener(new View.OnClickListener() {
-            @Override public void onClick(View view) {
+        ll_view_group.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
                 // Toast.makeText(PlayActivityTemp.this, "ViewActivity show", Toast.LENGTH_SHORT).show();
                 mediaPlayer1.pause();
             }
@@ -87,28 +113,51 @@ public class PlayActivity extends AppCompatActivity implements OnClickListener {
 
         ll_view_group.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public boolean onTouch(View view,MotionEvent motionEvent) {
-                float x= motionEvent.getX();
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                float x = motionEvent.getX();
                 float y = motionEvent.getY();
-                Log.i("SimpleGuideViewActivity","X="+x+"Y="+y);
+                Log.i("SimpleGuideViewActivity", "X=" + x + "Y=" + y);
                 //Toast.makeText(SimpleGuideViewActivity.this, "On Long Click touch event", Toast.LENGTH_SHORT).show();
                 final MotionEvent pmotionEvent = motionEvent;
-                if(motionEvent.getAction() == MotionEvent.ACTION_UP){
+                if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
                     view.post(new Runnable() {
-                        @Override public void run() {
+                        @Override
+                        public void run() {
                             int pos = mediaPlayer1.getCurrentPosition();
-                            MLog.d("mediaPlayer1.getCurrentPosition pos="+pos);
+                            MLog.d("mediaPlayer1.getCurrentPosition pos=" + pos);
                             //应该先拿数据 等数据到了之后再show view
                             //或者 先从本地数据库读取数据,远程的数据拿到了以后再更新。
-                            showGuideView2(pmotionEvent);
+                            //showGuideView2(pmotionEvent);
+                            //server 端 必须改造 返回数据，用jason object 包含 info 数组， 不能直接返回对象数据组
+                            stmotionEvent = pmotionEvent;
+                            GetCurrentObjJob getCurrentObjJob = new GetCurrentObjJob(mAppContext, BaseJob.UI_HIGH);
+                            getCurrentObjJob.setDuration(mediaPlayer1.getCurrentPosition());
+                            MLog.i("mediaPlayer1.getCurrentPosition()="+String.valueOf(mediaPlayer1.getCurrentPosition()));
+                            mJobManager.addJobInBackground(getCurrentObjJob);
                         }
                     });
                 }
                 return false;
             }
         });
+    }
+
+
+    public void onEventMainThread(FetchedCurrentInfoEvent infoEvent) {
+        Log.i(TAG, "FetchedInfoEvent isSuccess="+infoEvent.isSuccess());
+        List<InfoObjectModel> infosList  = infoEvent.getOldest();
+        titleList = new ArrayList<AdapterModel>();
+        for (InfoObjectModel infoObjectModel:infosList) {
+            AdapterModel mAdapterModel = new AdapterModel();
+            mAdapterModel.setName(infoObjectModel.getInfoName());
+            mAdapterModel.setImageUrl(infoObjectModel.getImageUrlFull());
+            mAdapterModel.setInfoObjectId(infoObjectModel.getInfoId());
+            titleList.add(mAdapterModel);
+        }
+        showGuideView2(stmotionEvent);
 
     }
+
 
 
 
@@ -129,13 +178,10 @@ public class PlayActivity extends AppCompatActivity implements OnClickListener {
             }
         });
 
-        List<AdapterModel> titleList = new ArrayList<AdapterModel>();
-       // titleList.add("object1");
-       // titleList.add("object2");
-      //  titleList.add("object3");
 
 
-        CommonAdapter mCommonAdapter = new ListInfoAdapter(PlayActivity.this,titleList,R.layout.layer_object_list_item);
+
+        CommonAdapter mCommonAdapter = new ListInfoAdapter(PlayActivityBack.this,titleList,R.layout.layer_object_list_item);
         //mCommonAdapter.notifyDataSetChanged();
         ListComponent.XPosition xPosition = ListComponent.checkXposition(ll_view_group,motionEvent);
         ListComponent.YPosition yPosition = ListComponent.checkYposition(ll_view_group,motionEvent);
@@ -144,7 +190,7 @@ public class PlayActivity extends AppCompatActivity implements OnClickListener {
 
         guide = builder1.createGuide();
         guide.setShouldCheckLocInWindow(false);
-        guide.show(PlayActivity.this);
+        guide.show(PlayActivityBack.this);
     }
 
 
@@ -205,7 +251,24 @@ public class PlayActivity extends AppCompatActivity implements OnClickListener {
         // 把视频输出到SurfaceView上
         mediaPlayer1.setDisplay(surface1.getHolder());
         mediaPlayer1.prepare();
-        mediaPlayer1.start();
+        //mediaPlayer1.seekTo(20000);
+       // mediaPlayer1.start();
+        mediaPlayer1.setOnPreparedListener(new MediaPlayer.OnPreparedListener(){
+            @Override
+           public void onPrepared(MediaPlayer mp) {
+               // 装载完毕回调
+                mp.seekTo(20000);
+
+
+           }
+        });
+
+        mediaPlayer1.setOnSeekCompleteListener(new MediaPlayer.OnSeekCompleteListener() {
+            public void onSeekComplete(MediaPlayer m) {
+                m.start();
+
+            }
+        });
     }
 
 
@@ -214,7 +277,7 @@ public class PlayActivity extends AppCompatActivity implements OnClickListener {
         mediaPlayer1.reset();
         mediaPlayer1.setAudioStreamType(AudioManager.STREAM_MUSIC);
         //mediaPlayer1.setDataSource("/mnt/sdcard/通话录音/1.mp4");
-        AssetFileDescriptor fd = PlayActivity.this.getAssets().openFd("demo.mp4");
+        AssetFileDescriptor fd = PlayActivityBack.this.getAssets().openFd("demo.mp4");
         mediaPlayer1.setDataSource(fd.getFileDescriptor(),fd.getStartOffset(), fd.getLength());
         // 把视频输出到SurfaceView上
         mediaPlayer1.setDisplay(surface1.getHolder());
@@ -232,10 +295,10 @@ public class PlayActivity extends AppCompatActivity implements OnClickListener {
 
         @Override
         public void surfaceCreated(SurfaceHolder holder) {
-            if (postion == 0) {
+           // if (postion == 0) {
                 try {
                     play();
-                    mediaPlayer1.seekTo(postion);
+                    //mediaPlayer1.seekTo(postion);
                 } catch (IllegalArgumentException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
@@ -250,7 +313,7 @@ public class PlayActivity extends AppCompatActivity implements OnClickListener {
                     e.printStackTrace();
                 }
 
-            }
+           // }
 
         }
 

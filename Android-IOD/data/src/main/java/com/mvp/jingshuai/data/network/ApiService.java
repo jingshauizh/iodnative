@@ -18,6 +18,7 @@
 package com.mvp.jingshuai.data.network;
 
 import com.mvp.jingshuai.data.model.InfoObjectModel;
+import com.mvp.jingshuai.data.model.InfoObjectModelList;
 
 import retrofit.Call;
 import retrofit.http.GET;
@@ -37,6 +38,9 @@ public interface ApiService {
 
     @GET("/portal-avalanche-iod-backend-war-15.3.9/iod/infoobjects/{infoid}")
     Call<InfoObjectModel> getInfoObject(@Path("infoid") String infoid, @Query("vodId") String vodId, @Query("lang") String lang);
+
+    @GET("/portal-avalanche-iod-backend-war-15.3.9/iod/native/infoobjects")
+    Call<InfoObjectModelList> getCurrentObjects(@Query("vodId") String vodId, @Query("duration") Integer duration, @Query("lang") String lang);
 
 
 

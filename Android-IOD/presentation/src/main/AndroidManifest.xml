@@ -22,6 +22,9 @@
         <activity android:name=".view.player.PlayerActivity" />
         <activity android:name=".InfoODetail.InfoODetailActivity"></activity>
         <activity android:name=".infoplayviewp.PlayActivity">
+
+        </activity>
+        <activity android:name=".infoplayviewp.PlayActivityBack">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

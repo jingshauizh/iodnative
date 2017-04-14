@@ -45,6 +45,11 @@ public class InfoODetailPresenter implements InfoODetailContract.Presenter {
     @Inject
     InfoIdal mInfoIdal;
 
+
+
+    private String infoId;
+    private String vodId;
+
     public InfoODetailPresenter(@Nullable String taskId,
                                 @NonNull InfoODetailContract.View mInfoODetailView){
         this.mTaskId = taskId;
@@ -58,17 +63,33 @@ public class InfoODetailPresenter implements InfoODetailContract.Presenter {
 
     }
 
+    public InfoODetailPresenter(@Nullable String taskId,
+                                @NonNull InfoODetailContract.View mInfoODetailView,
+                                String infoId,
+                                String vodId){
+        this.infoId = infoId;
+        this.page_infoId = infoId;
+        this.vodId = vodId;
+        this.mTaskId = taskId;
+        this.mInfoODetailView = mInfoODetailView;
+        mInfoODetailView.setPresenter(this);
+        IODApplication.getInstance().getAppComponent().inject(this);
+        mEventBus.register(this,0);
+    }
 
 
     @Override
     public void start() {
-        showDetailedInfoO("");
+        showDetailedInfoO(infoId,vodId);
     }
 
-    private void showDetailedInfoO(String infoObjectId){
+    private void showDetailedInfoO(String infoObjectId, String vodId){
         //mBusinessIF.getDetailedInfoObjectById(infoObjectId);
         refreshView();
-        mJobManager.addJobInBackground( new FetchInfoJob(mAppContext,BaseJob.UI_HIGH));
+        FetchInfoJob mFetchInfoJob = new FetchInfoJob(mAppContext,BaseJob.UI_HIGH);
+        mFetchInfoJob.setVodId(vodId);
+        mFetchInfoJob.setInfoId(infoObjectId);
+        mJobManager.addJobInBackground( mFetchInfoJob);
 
         //mJobManager.addJobInBackground(new FetchFeedJob(mContext.getApplicationContext(), BaseJob.UI_HIGH,1l));
     }
@@ -78,6 +99,7 @@ public class InfoODetailPresenter implements InfoODetailContract.Presenter {
         Log.i(TAG, "FetchedInfoEvent isSuccess="+infoEvent.isSuccess());
         Log.i(TAG, "FetchedInfoEvent getInfoName="+infoEvent.getOldest().getInfoName());
         InfoObjectModel mInfoObjectModel = infoEvent.getOldest();
+        page_infoId = mInfoObjectModel.getInfoId();
         refreshView();
 
     }
@@ -117,6 +139,24 @@ public class InfoODetailPresenter implements InfoODetailContract.Presenter {
     @Override
     public void activateTask() {
 
+    }
+
+
+
+    public String getInfoId() {
+        return infoId;
+    }
+
+    public void setInfoId(String infoId) {
+        this.infoId = infoId;
+    }
+
+    public String getVodId() {
+        return vodId;
+    }
+
+    public void setVodId(String vodId) {
+        this.vodId = vodId;
     }
 
 

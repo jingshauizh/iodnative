@@ -49,10 +49,13 @@ public class InfoODetailFragment extends Fragment implements InfoODetailContract
 
     @Override
     public void showInfoImage(String imageUrl) {
-        Glide.with(this)
-                .load(imageUrl)
-                .centerCrop()
-                .into(mInfoImageView);
+        //check activity before attach
+        if(this.getActivity() != null){
+            Glide.with(this)
+                    .load(imageUrl)
+                    .centerCrop()
+                    .into(mInfoImageView);
+        }
     }
 
     @Override

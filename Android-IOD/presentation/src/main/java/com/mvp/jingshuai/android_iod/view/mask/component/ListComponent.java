@@ -17,12 +17,46 @@ import android.widget.ListView;
 import com.blog.www.guideview.Component;
 import com.mvp.jingshuai.android_iod.InfoODetail.InfoODetailActivity;
 import com.mvp.jingshuai.android_iod.R;
+import com.mvp.jingshuai.android_iod.adapter.AdapterModel;
 import com.mvp.jingshuai.android_iod.adapter.ListInfoAdapter;
 import com.mvp.jingshuai.commonlib.adapter.CommonAdapter;
 import com.mvp.jingshuai.commonlib.log.MLog;
 
 /**
+ * TOdo  ListView 改成 recircleView
  * Created by Jingshuai on 2017-02-21.
+ * 当前 的 object 排列情况是
+ *
+                   A
+                 o A
+                   A
+
+             A
+             A o
+             A
+ *
+ *  将来期望设置成 九宫格形式
+ *
+
+             A     A
+             A  o
+
+
+             A     A
+             A  o  A
+
+
+             A     A
+             A  o  A
+             A
+
+
+             A     A
+             A  o  A
+             A     A
+
+
+ *
  */
 public class ListComponent implements Component {
     private ListView mListView = null;
@@ -33,6 +67,7 @@ public class ListComponent implements Component {
     private final static Integer Y_POSITION_TOP_LINE = 300;
     private final static Integer Y_POSITION_BUTTOM_LINE = 200;
     private final  Integer OBJECT_OFFSET_DISTANCE = -50;
+    private String VOD_ID = "IOD_SINTEL";
 
     public ListComponent(CommonAdapter pListAdapter) {
         this.mListAdapter = pListAdapter;
@@ -54,21 +89,24 @@ public class ListComponent implements Component {
         if(mListAdapter != null){
             mListView.setAdapter(mListAdapter);
         }
-        ll.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.i("ListComponent","ListComponent setOnClickListener ");
-                Activity pActivity =  (Activity)view.getContext();
-                pActivity.startActivity(new Intent(view.getContext(), InfoODetailActivity.class));
-            }
-        });
+//        ll.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Log.i("ListComponent","ListComponent setOnClickListener ");
+//                Activity pActivity =  (Activity)view.getContext();
+//                pActivity.startActivity(new Intent(view.getContext(), InfoODetailActivity.class));
+//            }
+//        });
 
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Log.i("ListComponent","ListComponent setOnItemClickListener position= "+position);
                 Activity pActivity =  (Activity)view.getContext();
-                pActivity.startActivity(new Intent(view.getContext(), InfoODetailActivity.class));
+                Intent detailedIntent = new Intent(view.getContext(), InfoODetailActivity.class);
+                detailedIntent.putExtra("infoId",((AdapterModel)mListAdapter.getItem(position)).getInfoObjectId());
+                detailedIntent.putExtra("vodId",VOD_ID);
+                pActivity.startActivity(detailedIntent);
             }
         });
         return ll;
