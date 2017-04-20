@@ -195,11 +195,6 @@ public class PlayActivityBack extends AppCompatActivity implements OnClickListen
 
 
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        mediaPlayer1.pause();
-    }
 
     @Override
     public void onClick(View v) {
@@ -322,6 +317,16 @@ public class PlayActivityBack extends AppCompatActivity implements OnClickListen
 
         }
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MLog.i("PlayActivityBack onResume");
+        if(guide!=null){
+            guide.dismiss();
+        }
+        mediaPlayer1.pause();
     }
 
     @Override

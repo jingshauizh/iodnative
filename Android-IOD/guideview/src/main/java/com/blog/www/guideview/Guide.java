@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.FrameLayout;
 
 /**
  * 遮罩系统的封装 <br>
@@ -57,8 +58,14 @@ public class Guide implements View.OnKeyListener, View.OnClickListener {
       mMaskView = onCreateView(activity);
     }
     ViewGroup content = (ViewGroup) activity.findViewById(android.R.id.content);
+
     if (mMaskView.getParent() == null) {
       content.addView(mMaskView);
+
+
+      //这个放在最顶层的 framelayout 里面了  这个效果不太好
+     // ((FrameLayout) (activity.getWindow().getDecorView())).addView(mMaskView);
+
       if (mConfiguration.mEnterAnimationId != -1) {
         Animation anim = AnimationUtils.loadAnimation(activity, mConfiguration.mEnterAnimationId);
         assert anim != null;
