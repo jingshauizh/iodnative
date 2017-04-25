@@ -240,7 +240,8 @@ public class PlayActivityBack extends AppCompatActivity implements OnClickListen
         //mediaPlayer1.setDataSource("/mnt/sdcard/通话录音/1.mp4");
 
         String sdCard= Environment.getExternalStorageDirectory().getPath();
-        String mediaPath = sdCard+"/Movies/sintel-1024-surround.mp4";
+        //String mediaPath = sdCard+"/Movies/sintel-1024-surround.mp4";
+        String mediaPath = "http://150.236.223.179/sintel/index.m3u8";
         MLog.d("mediaPath="+mediaPath);
         mediaPlayer1.setDataSource(mediaPath);
         // 把视频输出到SurfaceView上
